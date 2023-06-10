@@ -1,0 +1,49 @@
+import os
+import openai
+import telebot
+from telebot.types import Message
+
+
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+openai.api_key = os.getenv("AI_TOKEN")
+
+
+openai.organization = "org-XGzTVxCddVxXANcR0iMCugR5"
+openai.Model.list()
+
+@BOT_TOKEN.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    BOT_TOKEN.reply_to(message, "Welcome to the Story Generator Bot! Please send me the hero's name.")
+
+@BOT_TOKEN.message_handler(func=lambda message: True)
+def generate_story(message):
+    name = message.text.strip()
+
+    if not name:
+        BOT_TOKEN.reply_to(message, "Please provide a valid hero's name.")
+        return
+
+    prompt = f"Once upon a time, there was a hero named {name}."
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=200,
+        temperature=0.7,
+        n=1,
+        stop=None
+    )
+    story = response.choices[0].text.strip().replace(prompt, "")
+
+    BOT_TOKEN.reply_to(message, story)
+
+# Start the bot
+BOT_TOKEN.polling()
+
+
+
+# @bot.message_handler(commands=['start'])
+# def echo(message : Message):
+#   BOT_TOKEN.reply_to(message = message, text="sample")
+
+# bot.polling()
+
