@@ -8,9 +8,7 @@ import os
 load_dotenv()
 # Установите ключ OpenAI API
 openai.api_key = os.getenv("AI_TOKEN")
-
-
-
+    
 # Создайте экземпляр бота
 bot_token =os.getenv('BOT_TOKEN')
 bot = aiogram.Bot(token=bot_token) 
