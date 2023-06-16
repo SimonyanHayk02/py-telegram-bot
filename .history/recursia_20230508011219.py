@@ -1,9 +1,0 @@
-# def recursia(bar):
-#     inputBar = input("Enter bar")
-#     if bar == inputBar[::-1]:
-#         print("bary polidnroma ")
-# recursia()
-
-# def isPrime(lst:"list"):
-import random
-print(random.randint(1,9))

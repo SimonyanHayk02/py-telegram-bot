@@ -1,1 +1,0 @@
-def recursia(bar)

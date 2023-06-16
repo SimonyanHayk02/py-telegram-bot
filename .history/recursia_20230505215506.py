@@ -1,2 +1,0 @@
-def recursia(bar):
-    if 
