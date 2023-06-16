@@ -3,7 +3,7 @@ import aiogram
 import openai
 
 # Установите ключ OpenAI API
-openai.api_key = "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"
+openai.api_key = "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"
 
 # Создайте экземпляр бота
 bot = aiogram.Bot(token="6134840576:AAE63UvD5GWK48Ls7S3afVbcJJC4jtS2snk")
