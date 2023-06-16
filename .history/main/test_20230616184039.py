@@ -19,8 +19,8 @@ dp = aiogram.Dispatcher(bot)
 
 
 @dp.message_handler(commands=['start', 'help'])
-async def send_welcome(message: aiogram.types.Message):
-    await bot.send_message(message.from_user.id, f"Hello {message.from_user.first_name} Welcome to the Story Generator Bot! Please send me the hero's name.")
+def send_welcome(message: aiogram.types.Message):
+    dp.reply_to(message, f"Hello {message.username} Welcome to the Story Generator Bot! Please send me the hero's name.")
    
 # Асинхронная функция для генерации сказки
 async def generate_story(message):

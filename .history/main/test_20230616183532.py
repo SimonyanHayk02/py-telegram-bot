@@ -5,22 +5,21 @@ from dotenv import load_dotenv
 import os 
 
 
-load_dotenv()
+load_dotenv
 # Установите ключ OpenAI API
 openai.api_key = os.getenv("AI_TOKEN")
 
 
 
 # Создайте экземпляр бота
-bot_token =os.getenv('BOT_TOKEN')
-bot = aiogram.Bot(token=bot_token) 
+bot = aiogram.Bot(token="BOT_TOKEN") 
                   
 dp = aiogram.Dispatcher(bot)
 
 
-@dp.message_handler(commands=['start', 'help'])
-async def send_welcome(message: aiogram.types.Message):
-    await bot.send_message(message.from_user.id, f"Hello {message.from_user.first_name} Welcome to the Story Generator Bot! Please send me the hero's name.")
+@dp.message_handler(commands=['start', 'help'],func=lambda message: True)
+def send_welcome(message):
+    bot.reply_to(message, f"Hello {message.from_user.first_name} Welcome to the Story Generator Bot! Please send me the hero's name.")
    
 # Асинхронная функция для генерации сказки
 async def generate_story(message):
