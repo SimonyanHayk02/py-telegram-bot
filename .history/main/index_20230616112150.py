@@ -31,13 +31,13 @@ async def generate_story(message):
     с написанной мной персонажем.Ты генерируешь сказки для детей от 4 до 12 лет.Но чтобы оно имело смысловое значение.Но не слишком большое чтобы ты смог отправить его сразу.
     Но ты должен проверить етих персонажей из фильмов, мултьтфильмов,сказок,знаменитых игр и так далее чтобы я знал сушествует ли такой персонаж на самом деле.
     А теперь сгенерируй сказку с персонажем {message.json['text']} .Но перед тем как сказать тебе етого персонажа мне нужно чтобы ты проверил сушествует ли такой персонаж или нет если сушествует то ты должен
-    дать мне сгенерированну сказку а если нет просто скажу что такого персонажа не сушествует и все не надо никакого обьяснения""",
+    дать мне сгенерированну сказку а если нет просто скажу что такого персонажа не сушествует и все не надо добавлять другие слова""",
         temperature=1,
         max_tokens=2048,
         top_p=1
     )
     result = chat_response.choices[0].text
-    await bot.reply_to(message, f"Сказка {result}")
+    await bot.reply_to(message, f"{result}")
     
 @bot.message_handler(func=lambda message: True)
 async def handle_message(message):
@@ -49,10 +49,8 @@ async def handle_message(message):
 
 
 try:
-    async def main():
-        bot.polling()
-
-    if __name__ == '__main__':
-        asyncio.run(main())
+    bot.polling()
 except Exception as e:
     print(f"Error occurred during polling: {str(e)}")
+if __name__ == '__main__':
+    asyncio.run(main())
