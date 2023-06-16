@@ -3,6 +3,11 @@ import telebot
 import threading
 import asyncio
 
+
+
+# Get the bot token from environment variable
+
+
 # Set OpenAI API key message.text
 openai.api_key = "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"
 
@@ -36,7 +41,10 @@ async def generate_story(message):
     
 @bot.message_handler(func=lambda message: True)
 async def handle_message(message):
+    # Отправляем сообщение о начале ожидания
     await bot.reply_to(message, "Подождите, идет генерация сказки...")
+
+    
     await generate_story(message)
 
 

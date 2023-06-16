@@ -3,6 +3,9 @@ import telebot
 import threading
 import asyncio
 
+# Get the bot token from environment variable
+
+
 # Set OpenAI API key message.text
 openai.api_key = "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"
 

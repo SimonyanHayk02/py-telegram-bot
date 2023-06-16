@@ -1,26 +1,23 @@
-import openai
-import telebot
-import threading
 import asyncio
+import aiogram
+import openai
 
-# Set OpenAI API key message.text
+# Установите ключ OpenAI API
 openai.api_key = "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"
 
-# Create a TeleBot instance
-bot = telebot.TeleBot("6134840576:AAE63UvD5GWK48Ls7S3afVbcJJC4jtS2snk", parse_mode=None)
+# Создайте экземпляр бота
+bot = aiogram.Bot(token="6134840576:AAE63UvD5GWK48Ls7S3afVbcJJC4jtS2snk")
+dp = aiogram.Dispatcher(bot)
 
-# Handler for '/start' and '/help' commands
-@bot.message_handler(commands=['start', 'help'],func=lambda message: True)
+@bdp.message_handler(commands=['start', 'help'],func=lambda message: True)
 def send_welcome(message):
     bot.reply_to(message, f"Hello {message.from_user.first_name} Welcome to the Story Generator Bot! Please send me the hero's name.")
    
 
-# Handler for text messages
-
-@bot.message_handler(func=lambda message: True)
+# Асинхронная функция для генерации сказки
 async def generate_story(message):
-    # Generate a story using OpenAI API
-    chat_response =  openai.Completion.create(
+    # Генерация сказки с использованием OpenAI API
+    chat_response = openai.Completion.create(
         model="text-davinci-003",
         prompt=f"""Я хочу чтобы ты стал моим создателем промптов.Мне нужно чтобы ты сгенерировал для детей сказку
     с написанной мной персонажем.Ты генерируешь сказки для детей от 4 до 12 лет.Но чтобы оно имело смысловое значение.Но не слишком большое чтобы ты смог отправить его сразу.
@@ -32,19 +29,22 @@ async def generate_story(message):
         top_p=1
     )
     result = chat_response.choices[0].text
+
+    # Отправка сгенерированной сказки в чат
     await bot.reply_to(message, f"Сказка {result}")
-    
-@bot.message_handler(func=lambda message: True)
-async def handle_message(message):
-    await bot.reply_to(message, "Подождите, идет генерация сказки...")
+
+# Обработчик сообщений
+@dp.message_handler()
+async def handle_message(message: aiogram.types.Message):
+    # Отправляем сообщение о начале ожидания
+    await bot.send_message(chat_id=message.chat.id, text="Подождите, идет генерация сказки...")
+
+    # Асинхронно генерируем сказку
     await generate_story(message)
 
+# Запуск бота и непрерывное получение сообщений
+async def main():
+    await dp.start_polling()
 
-try:
-    async def main():
-        bot.polling()
-
-    if __name__ == '__main__':
-        asyncio.run(main())
-except Exception as e:
-    print(f"Error occurred during polling: {str(e)}")
+if __name__ == '__main__':
+    asyncio.run(main())
