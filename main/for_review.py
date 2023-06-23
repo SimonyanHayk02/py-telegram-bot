@@ -42,6 +42,7 @@ async def generate_story(message):
 # Обработчик сообщений
 @dp.message_handler()
 async def handle_message(message: aiogram.types.Message):
+
     # Отправляем сообщение о начале ожидания
     await bot.send_message(chat_id=message.chat.id, text="Подождите, идет генерация сказки...")
     # Асинхронно генерируем сказку
@@ -51,5 +52,5 @@ async def handle_message(message: aiogram.types.Message):
 async def main():
     await dp.start_polling()
 
-if __name__ == '__main__':
+if __name__ == 'main':
     asyncio.run(main())
