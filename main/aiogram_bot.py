@@ -55,6 +55,7 @@ async def set_character_name(message:aiogram.types.Message):
         
 
 
+
 # Asynchronous function for generating a story
 async def generate_story(message: aiogram.types.Message,gender):
             await bot.send_message(message.chat.id, text="Пожалуйста подождите пока сказка генерируется...")
