@@ -117,6 +117,8 @@ async def generate_story(message: aiogram.types.Message,gender):
     
 
 
+
+
 async def main():
     try: 
         await dp.start_polling()
