@@ -118,7 +118,9 @@ async def generate_story(message: aiogram.types.Message,gender):
 
 
 async def main():
-    await dp.start_polling()
-
+    try: 
+        await dp.start_polling()
+    except Exception as e:
+         print(e)
 if __name__ == '__main__':
     asyncio.run(main())
