@@ -123,4 +123,7 @@ async def main():
     except Exception as e:
          print(e)
 if __name__ == '__main__':
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except Exception as e:
+         print(f"{e}-error in main")
