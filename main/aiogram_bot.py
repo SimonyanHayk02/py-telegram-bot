@@ -6,9 +6,12 @@ from dotenv import load_dotenv
 import os 
 from aiogram.dispatcher.filters import Text
 from gtts import gTTS
-from aiogram.types import InputFile
+from aiogram.types import InputFile 
 from aiogram.dispatcher import FSMContext
-
+import requests
+from PIL import Image
+import json
+from json import JSONDecodeError
 
 
 load_dotenv()
@@ -31,7 +34,7 @@ async def send_welcome(message: aiogram.types.Message):
 
 @dp.message_handler()
 async def set_character_name(message:aiogram.types.Message):
-    print(message.text)
+    print(message.text,message.chat.id,message.from_user.first_name,message.from_user.last_name)
     if message.text != "Мальчик" and message.text != "Девочка":
         global user_input_text 
         user_input_text = message
@@ -51,14 +54,35 @@ async def set_character_name(message:aiogram.types.Message):
         if message.text == "Мальчик":
             await generate_story(user_input_text, "Мальчик")
         elif message.text =="Девочка":
-             await generate_story(user_input_text,"Девочка")
+            await generate_story(user_input_text,"Девочка")
         
-
 
 
 # Asynchronous function for generating a story
 async def generate_story(message: aiogram.types.Message,gender):
             await bot.send_message(message.chat.id, text="Пожалуйста подождите пока сказка генерируется...")
+            response_image = openai.Image.create(
+            prompt = message["text"],
+            n = 1,
+            size = "256x256"
+            ) 
+            with open("data.json", "w") as file:
+                json.dump(response_image, file,indent=4,ensure_ascii=False) 
+                
+                
+                            
+            with open("data.json", "r") as file:
+                # Load the JSON data
+                data = json.load(file)
+
+            # Extract the URL from the data dictionary
+            data1 = data["data"]
+            url=data1[0]["url"]
+           
+            await bot.send_photo(message.chat.id, photo=url)
+
+          
+          
             chat_response_final = openai.Completion.create(
             model="text-davinci-003",
             prompt=f"""Я хочу, чтобы ты был моим создателем подсказок. Мне нужно, чтобы вы создали сказку для {gender.lower()}
@@ -85,7 +109,6 @@ async def generate_story(message: aiogram.types.Message,gender):
                 audio_file_path = "generated_story.mp3"
                 tts = gTTS(summary,lang="ru")
                 tts.save(audio_file_path)
-
                 voice = InputFile(audio_file_path)
                 await bot.send_voice(message.from_user.id, voice, caption="Краткое содержание этой сказки!")
 
@@ -101,5 +124,6 @@ async def generate_story(message: aiogram.types.Message,gender):
 
 async def main():
     await dp.start_polling()
+
 if __name__ == '__main__':
     asyncio.run(main())
