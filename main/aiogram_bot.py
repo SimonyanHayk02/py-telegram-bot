@@ -1,17 +1,12 @@
 import asyncio
-from pathlib import Path
 import aiogram
 import openai
 from dotenv import load_dotenv
 import os 
-from aiogram.dispatcher.filters import Text
 from gtts import gTTS
 from aiogram.types import InputFile 
-from aiogram.dispatcher import FSMContext
-import requests
-from PIL import Image
 import json
-from json import JSONDecodeError
+
 
 
 load_dotenv()
