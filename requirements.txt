@@ -1,0 +1,5 @@
+asyncio==3.4.3
+aiogram==2.25.1
+openai==0.27.8
+python-dotenv==1.0.0
+gTTS==2.3.2
